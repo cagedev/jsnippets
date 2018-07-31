@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>HTML5 LocalStorage Test</title>
+  </head>
+  <body>
+    <textarea class="ps_item" id="myText1">
+    </textarea><br>
+    <textarea class="ps_item" id="myText2">
+    </textarea><br>
+    <textarea class="ps_item" id="myText3">
+    </textarea><br>
+    <input type="button" id="save"  value="Save"/>
+    <input type="button" id="clear" value="Clear localStorage"/>
+    <input type="button" id="load"  value="Load localStorage"/>
+
+    <script type="text/javascript">
+      var ps_item_class = "ps_item";
+      var ps_function_class = "ps_helper";
+
+      window.addEventListener("load", setup);
+
+      function setup () {
+        document.getElementById("save" ).addEventListener("click", function(){saveAll(ps_item_class);});
+        document.getElementById("clear").addEventListener("click", function(){clearAll();});
+        document.getElementById("load" ).addEventListener("click", function(){loadAll(ps_item_class);});
+        let areas = document.getElementsByClassName(ps_item_class);
+        for (i = 0; i < areas.length; i++) {
+          areas[i].addEventListener("input", function(){update(this)});
+        }
+        loadAll(ps_item_class);
+      }
+
+      function update(el) {
+        console.log(el.id +":"+el.value);
+        localStorage.setItem(el.id, el.value);
+      }
+
+      function saveAll(flag) {
+        if (sessionStorage) {
+          var areas = document.getElementsByClassName(flag);
+          for (i=0; i< areas.length; i++){
+            console.log(areas[i]);
+            localStorage.setItem(areas[i].id, areas[i].value);
+          }
+        }
+      }
+
+      function loadAll(flag) {
+        if(sessionStorage){
+          var areas = document.getElementsByClassName(flag);
+          for (i=0; i< areas.length; i++){
+            areas[i].innerHTML = localStorage.getItem(areas[i].id);
+            console.log(localStorage.getItem(areas[i].id));
+          }
+        } else {
+          console.log("LocalStorage not enabled");
+
+          // no localStorage support
+          // show error / disable buttons
+        }
+      }
+
+      function clearAll(){
+        localStorage.clear();
+      }
+    </script>
+  </body>
+</html>
